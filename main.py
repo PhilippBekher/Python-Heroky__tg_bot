@@ -13,6 +13,7 @@ logger.setLevel(logging.DEBUG)
 db_connection = psycopg2.connect( DB_URI, sslmode = "require")
 db_object = db_connection.cursor()
 
+
 @bot.message_handler(commands=["start"])
 def start(message):
     id = message.from_user.id
@@ -21,9 +22,14 @@ def start(message):
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
 
+    num_of_questions = db_object.execute("SELECT id FROM questions")
+    print(num_of_questions)
+
     if not result:
         db_object.execute("INSERT INTO users(id, username ) VALUES(%s,%s)",(id,username))
+
         db_connection.commit()
+
 
 @server.route(f"/{BOT_TOKEN}",methods = ["POST"])
 def redirect_message():
