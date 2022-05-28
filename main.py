@@ -23,8 +23,10 @@ def start(message):
     result = db_object.fetchone()
 
     num_of_questions = db_object.execute("SELECT question_id FROM questions")
+    question_records = db_object.fetchall()
 
-    print(num_of_questions)
+
+    print(question_records)
     print('Hello!')
 
     if not result:
