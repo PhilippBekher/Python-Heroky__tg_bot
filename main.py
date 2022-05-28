@@ -18,12 +18,13 @@ db_object = db_connection.cursor()
 def start(message):
     id = message.from_user.id
     username = message.from_user.username
+    full_name = message.from_user.first_name + message.from_user.last_name
 
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
 
     if not result:
-        num_of_questions = db_object.execute("SELECT * FROM questions")
+        questions = db_object.execute("SELECT * FROM questions")
         question_records = db_object.fetchall()
         bot.send_message(message.chat.id,
 f"""Hello👋🏼
@@ -33,7 +34,7 @@ The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
 
-        db_object.execute("INSERT INTO users(id, username ) VALUES(%s,%s)",(id,username))
+        db_object.execute("INSERT INTO users(id, username, current_exercise, full_name ) VALUES(%s,%s,%s,%s )",(id,username,1,full_name))
         db_connection.commit()
 
 
