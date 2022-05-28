@@ -18,12 +18,12 @@ db_object = db_connection.cursor()
 def start(message):
     id = message.from_user.id
     username = message.from_user.username
-    bot.reply_to(message, f"Hello!,{username}!")
+
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
 
     if not result:
-        num_of_questions = db_object.execute("SELECT question_id FROM questions")
+        num_of_questions = db_object.execute("SELECT * FROM questions")
         question_records = db_object.fetchall()
         bot.send_message(message.chat.id,
 f"""Hello👋🏼
