@@ -1,0 +1,2 @@
+BOT_TOKEN = "5594270299:AAFidujPwvekgRaWlv2ahyoaKGlUOUDtDMA"
+APP_URL = "" + BOT_TOKEN
