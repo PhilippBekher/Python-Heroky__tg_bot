@@ -26,7 +26,7 @@ def start(message):
     question_records = db_object.fetchall()
 
 
-    print(question_records)
+    print(len(question_records))
     print('Hello!')
 
     if not result:
