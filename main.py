@@ -22,17 +22,19 @@ def start(message):
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
 
-    num_of_questions = db_object.execute("SELECT question_id FROM questions")
-    question_records = db_object.fetchall()
-
-
-    print(len(question_records))
-    print('Hello!')
-
     if not result:
-        db_object.execute("INSERT INTO users(id, username ) VALUES(%s,%s)",(id,username))
+        num_of_questions = db_object.execute("SELECT question_id FROM questions")
+        question_records = db_object.fetchall()
+        bot.send_message(message.chat.id, f"""Hello👋🏼
+        I'm going to take you through {len(question_records)} questions to find out your English level 📚🎓 
+        Please be patient and carefully reply to all the questions🙏🏼 
+        The test will take no more than 20 minutes😊 
+        Good luck🤞🏼""")
 
+
+        db_object.execute("INSERT INTO users(id, username ) VALUES(%s,%s)",(id,username))
         db_connection.commit()
+
 
 
 @server.route(f"/{BOT_TOKEN}",methods = ["POST"])
