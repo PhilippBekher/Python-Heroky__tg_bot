@@ -22,7 +22,8 @@ def start(message):
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
 
-    num_of_questions = db_object.execute("SELECT id FROM questions")
+    num_of_questions = db_object.execute("SELECT question_id FROM questions")
+
     print(num_of_questions)
 
     if not result:
