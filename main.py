@@ -18,7 +18,7 @@ db_object = db_connection.cursor()
 def start(message):
     id = message.from_user.id
     username = message.from_user.username
-    fullname = message.from_user.first_name + message.from_user.last_name
+    fullname = message.from_user.first_name + ' ' + message.from_user.last_name
 
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
@@ -34,7 +34,7 @@ The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
 
-        db_object.execute("INSERT INTO users(id, username, current_exercise) VALUES(%s,%s,%s)",(id, username, 1))
+        db_object.execute("INSERT INTO users(id, username, current_exercise) VALUES(%s,%s,%s,%s)",(id, username, 1, fullnam))
         db_connection.commit();
 
 
