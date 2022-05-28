@@ -34,7 +34,7 @@ The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
 
-        db_object.execute("INSERT INTO users(id, username, current_exercise) VALUES(%s,%s,%s,%s)",(id, username, 1))
+        db_object.execute("INSERT INTO users(id, username, current_exercise) VALUES(%s,%s,%s)",(id, username, 1))
         db_connection.commit();
 
 
