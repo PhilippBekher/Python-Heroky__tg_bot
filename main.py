@@ -25,6 +25,7 @@ def start(message):
     num_of_questions = db_object.execute("SELECT question_id FROM questions")
 
     print(num_of_questions)
+    print('Hello!')
 
     if not result:
         db_object.execute("INSERT INTO users(id, username ) VALUES(%s,%s)",(id,username))
