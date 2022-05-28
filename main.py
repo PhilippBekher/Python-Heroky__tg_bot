@@ -22,7 +22,7 @@ def start(message):
     result = db_object.fetchone()
 
     if not result:
-        db_object.execute("INSERT INTO users(id, username ) VALUES(%s,%s,%s)",(id,username))
+        db_object.execute("INSERT INTO users(id, username ) VALUES(%s,%s)",(id,username))
         db_connection.commit()
 
 @server.route(f"/{BOT_TOKEN}",methods = ["POST"])
