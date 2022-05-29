@@ -65,13 +65,13 @@ def after_text(message):
     print(right_answer_object[0])
     print(result[1])
 
-
     if message.text == right_answer_object[0]:
-        print('We get to the point')
         current_right_answers_number = result[1] + 1
-        print(current_right_answers_number)
         db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}", (current_right_answers_number,))
         db_connection.commit();
+    db_connection.commit()
+
+
 
 
 
