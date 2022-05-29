@@ -38,6 +38,9 @@ Good luck🤞🏼""")
         db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
         first_question = db_object.fetchone()
         print(first_question)
+        bot.send_message(message.chat.id,
+f"""{first_question[0]}. Fill in the gap:
+{first_question[1]}""")
 
         db_connection.commit();
 
