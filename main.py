@@ -71,6 +71,7 @@ def after_text(message):
         current_right_answers_number = result[1] + 1
         print(current_right_answers_number)
         db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}", (current_right_answers_number,))
+        db_connection.commit();
 
 
 
@@ -80,7 +81,6 @@ def after_text(message):
 
 
 
-db_connection.commit();
 
 
 
