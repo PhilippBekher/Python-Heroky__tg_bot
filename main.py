@@ -44,6 +44,15 @@ f"""{first_question[0]}. Fill in the gap:
 {first_question[1]}""",reply_markup=keyboard)
         db_connection.commit();
 
+def message_reply(message):
+    id = message.from_user.id
+    db_object.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
+    result = db_object.fetchone()
+    next_exercise = result[0] + 1
+    print(next_exercise)
+
+    # if message.text=="Кнопка":
+    #     bot.send_message(message.chat.id,"https://habr.com/ru/users/lubaznatel/")
 
 
 @server.route(f"/{BOT_TOKEN}",methods = ["POST"])
