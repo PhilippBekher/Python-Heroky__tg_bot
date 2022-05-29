@@ -33,8 +33,12 @@ Please be patient and carefully reply to all the questions🙏🏼
 The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
-
+        ##Finished here
         db_object.execute("INSERT INTO users(id, username, current_exercise, fullname) VALUES(%s,%s,%s,%s)",(id, username, 1, fullname))
+        db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
+        first_question = db_object.fetchone()
+        print(first_question)
+
         db_connection.commit();
 
 
