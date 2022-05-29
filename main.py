@@ -57,18 +57,20 @@ def after_text(message):
         current_exercise_right_answer = db_object.execute(
             f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
         right_answer_object = db_object.fetchone()
+        final_right_answers_number = result[1]
 
         if message.text == right_answer_object[0]:
             current_exercise_right_answer = db_object.execute(
                 f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
             right_answer_object = db_object.fetchone()
             current_right_answers_number = result[1] + 1
+            final_right_answers_number = current_right_answers_number
             db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
                               (current_right_answers_number,))
             db_connection.commit();
 
         level = ''
-        percent_of_right_answers = result[1]/len(question_records)
+        percent_of_right_answers = final_right_answers_number/len(question_records)
 
         if 0 <= percent_of_right_answers <= 0.17:
             level = 'Beginner'
@@ -82,7 +84,7 @@ def after_text(message):
             level = 'Upper-Intermediate'
         else:
             level = 'Advanced'
-        print('hello')
+
         db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
         current_number_of_right_answers = db_object.fetchone()
         bot.send_message(message.chat.id,
