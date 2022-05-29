@@ -79,7 +79,7 @@ def after_text(message):
             level = 'Upper-Intermediate'
         else:
             level = 'Advanced'
-
+        print('hello')
         bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
 Number of right answers is: { result[1] } 
