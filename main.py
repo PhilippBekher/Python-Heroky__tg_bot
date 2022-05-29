@@ -54,6 +54,9 @@ def after_text(message):
     result = db_object.fetchone()
 
     if result[0] == len(question_records):
+        current_exercise_right_answer = db_object.execute(
+            f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+        right_answer_object = db_object.fetchone()
 
         if message.text == right_answer_object[0]:
             current_exercise_right_answer = db_object.execute(
