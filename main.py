@@ -56,8 +56,8 @@ def after_text(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
     keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
     bot.send_message(message.chat.id,
-                     f"""{next_exercise[0]}. Fill in the gap:
-    {next_exercise[1]}""", reply_markup=keyboard)
+ f"""{next_exercise[0]}. Fill in the gap:
+{next_exercise[1]}""", reply_markup=keyboard)
 
 
     db_connection.commit();
