@@ -46,9 +46,21 @@ f"""{first_question[0]}. Fill in the gap:
 
 @bot.message_handler(content_types=['text'])
 def after_text(message):
+    questions = db_object.execute("SELECT * FROM questions")
+    question_records = db_object.fetchall()
+
     id = message.from_user.id
     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
+
+    if result[0] == len(question_records):
+
+        bot.send_message(message.chat.id,
+f"""Thank you for taking the test😊
+Number of right answers is: { result[1] } 
+Your level is: Asshole
+We'll contact you very soon🙂""", reply_markup=keyboard)
+
     next_exercise_id = result[0] + 1
     db_object.execute(f"SELECT * FROM questions WHERE question_id = { next_exercise_id }")
     next_exercise = db_object.fetchone()
@@ -62,14 +74,16 @@ def after_text(message):
 
     current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
     right_answer_object = db_object.fetchone()
-    print(right_answer_object[0])
-    print(result[1])
+
 
     if message.text == right_answer_object[0]:
         current_right_answers_number = result[1] + 1
         db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}", (current_right_answers_number,))
         db_connection.commit();
+
     db_connection.commit()
+
+
 
 
 
