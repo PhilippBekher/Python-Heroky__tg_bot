@@ -91,7 +91,7 @@ def after_text(message):
 f"""Thank you for taking the test😊
 Number of right answers is: { current_number_of_right_answers[0] } 
 Your level is: {level}
-We'll contact you very soon🙂""")
+We'll contact you very soon🙂""", reply_markup = ReplyKeyboardRemove())
         db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
         db_connection.commit()
 
