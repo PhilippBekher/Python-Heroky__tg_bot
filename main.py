@@ -44,7 +44,8 @@ f"""{first_question[0]}. Fill in the gap:
 {first_question[1]}""",reply_markup=keyboard)
         db_connection.commit();
 
-def message_reply(message):
+@bot.message_handler(content_types=['text'])
+def after_text(message):
     id = message.from_user.id
     db_object.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
     result = db_object.fetchone()
