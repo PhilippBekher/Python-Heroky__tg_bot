@@ -37,7 +37,10 @@ Good luck🤞🏼""")
         db_object.execute("INSERT INTO users(id, username, current_exercise, fullname) VALUES(%s,%s,%s,%s)",(id, username, 1, fullname))
         db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
         first_question = db_object.fetchone()
-        print(first_question)
+        for row in first_question:
+            print("Id = ", row[0], )
+            print("Model = ", row[1])
+            print("Price  = ", row[2], "\n")
 
         db_connection.commit();
 
