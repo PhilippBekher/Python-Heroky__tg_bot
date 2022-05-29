@@ -55,7 +55,7 @@ def after_text(message):
 
     if result[0] == len(question_records):
         level = ''
-        percent_of_right_answers = reselt[1]/len(question_records)
+        percent_of_right_answers = result[1]/len(question_records)
 
         if 0 <= percent_of_right_answers <= 0.17:
             level = 'Beginner'
@@ -86,8 +86,8 @@ We'll contact you very soon🙂""")
         keyboard = telebot.types.ReplyKeyboardMarkup(True)
         keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
         bot.send_message(message.chat.id,
-                         f"""{next_exercise[0]}. Fill in the gap:
-        {next_exercise[1]}""", reply_markup=keyboard)
+f"""{next_exercise[0]}. Fill in the gap:
+{next_exercise[1]}""", reply_markup=keyboard)
 
         current_exercise_right_answer = db_object.execute(
             f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
