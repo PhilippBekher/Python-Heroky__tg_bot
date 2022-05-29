@@ -52,7 +52,7 @@ def after_text(message):
     next_exercise_id = result[0] + 1
     db_object.execute(f"SELECT * FROM questions WHERE question_id = { next_exercise_id }")
     next_exercise = db_object.fetchone()
-    db_object.execute("INSERT INTO users(current_exercise) VALUES(%s)", (next_exercise_id))
+    db_object.execute("INSERT INTO users(current_exercise) VALUES(%s)", (next_exercise_id,))
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
     keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
     bot.send_message(message.chat.id,
