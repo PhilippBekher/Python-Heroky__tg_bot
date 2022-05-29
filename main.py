@@ -86,12 +86,13 @@ def after_text(message):
             level = 'Advanced'
 
         db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
+        keyboard = telebot.types.ReplyKeyboardRemove(selective=false)
         current_number_of_right_answers = db_object.fetchone()
         bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
 Number of right answers is: { current_number_of_right_answers[0] } 
 Your level is: {level}
-We'll contact you very soon🙂""", reply_markup = none)
+We'll contact you very soon🙂""",reply_markup=keyboard)
         db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
         db_connection.commit()
 
