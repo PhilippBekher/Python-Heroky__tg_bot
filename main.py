@@ -42,10 +42,6 @@ Good luck🤞🏼""")
         bot.send_message(message.chat.id,
 f"""{first_question[0]}. Fill in the gap:
 {first_question[1]}""",reply_markup=keyboard)
-
-
-
-
         db_connection.commit();
 
 
