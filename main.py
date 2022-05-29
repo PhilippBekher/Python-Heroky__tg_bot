@@ -83,9 +83,11 @@ def after_text(message):
         else:
             level = 'Advanced'
         print('hello')
+        db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
+        current_number_of_right_answers = db_object.fetchone()
         bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
-Number of right answers is: { result[1] } 
+Number of right answers is: { current_number_of_right_answers[0] } 
 Your level is: {level}
 We'll contact you very soon🙂""")
         db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
