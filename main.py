@@ -54,12 +54,28 @@ def after_text(message):
     result = db_object.fetchone()
 
     if result[0] == len(question_records):
+        level = ''
+        percent_of_right_answers = reselt[1]/len(question_records)
+
+        if 0 <= percent_of_right_answers <= 0.17:
+            level = 'Beginner'
+        elif 0.17 < percent_of_right_answers <= 0.37:
+            level = 'Elementary'
+        elif 0.37 < percent_of_right_answers <= 0.53:
+            level = 'Pre-Intermediate'
+        elif 0.53 < percent_of_right_answers <= 0.73:
+            level = 'Intermediate'
+        elif 0.73 < percent_of_right_answers <= 0.9:
+            level = 'Upper-Intermediate'
+        else:
+            level = 'Advanced'
 
         bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
 Number of right answers is: { result[1] } 
-Your level is: Asshole
+Your level is: {level}
 We'll contact you very soon🙂""")
+        db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
 
 
     next_exercise_id = result[0] + 1
