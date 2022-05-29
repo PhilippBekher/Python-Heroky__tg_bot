@@ -33,14 +33,18 @@ Please be patient and carefully reply to all the questions🙏🏼
 The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
-        ##Finished here
+
         db_object.execute("INSERT INTO users(id, username, current_exercise, fullname) VALUES(%s,%s,%s,%s)",(id, username, 1, fullname))
         db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
         first_question = db_object.fetchone()
-        print(first_question)
+        keyboard = telebot.types.ReplyKeyboardMarkup(True)
+        keyboard.row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
         bot.send_message(message.chat.id,
 f"""{first_question[0]}. Fill in the gap:
-{first_question[1]}""")
+{first_question[1]}""",reply_markup=keyboard)
+
+
+
 
         db_connection.commit();
 
