@@ -63,9 +63,8 @@ def after_text(message):
     current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
     right_answer_object = db_object.fetchone()
     if message.text == right_answer_object[0]:
-        db_object.execute(f"right_answers_number FROM users WHERE id = {id}")
-        right_answers_number_object = db_object.fetchone()
-        db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}", (right_answers_number_object[0] + 1,))
+        right_answers_number_before_the_last_question = result[1]
+        db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}", (right_answers_number_before_the_last_question + 1,))
 
 
 
