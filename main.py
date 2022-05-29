@@ -59,7 +59,7 @@ def after_text(message):
 f"""Thank you for taking the test😊
 Number of right answers is: { result[1] } 
 Your level is: Asshole
-We'll contact you very soon🙂""", reply_markup=keyboard)
+We'll contact you very soon🙂""")
 
     next_exercise_id = result[0] + 1
     db_object.execute(f"SELECT * FROM questions WHERE question_id = { next_exercise_id }")
