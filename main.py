@@ -34,7 +34,7 @@ The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
 
-        db_object.execute("INSERT INTO users(id, username, current_exercise, fullname, right_answers_number) VALUES(%s,%s,%s,%s,%s)",(id, username, 1, fullname, 0))
+        db_object.execute("INSERT INTO users(id, username, current_exercise, fullname, right_answers_number) VALUES(%s,%s,%s,%s,%s)",(id, username, 1, fullname, 0,))
         db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
         first_question = db_object.fetchone()
         keyboard = telebot.types.ReplyKeyboardMarkup(True)
