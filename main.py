@@ -47,7 +47,7 @@ f"""{first_question[0]}. Fill in the gap:
 @bot.message_handler(content_types=['text'])
 def after_text(message):
     id = message.from_user.id
-    db_object.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
+    db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
     next_exercise_id = result[0] + 1
     db_object.execute(f"SELECT * FROM questions WHERE question_id = { next_exercise_id }")
@@ -60,15 +60,28 @@ def after_text(message):
  f"""{next_exercise[0]}. Fill in the gap:
 {next_exercise[1]}""", reply_markup=keyboard)
 
+    current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+    right_answer_object = db_object.fetchone()
+    if message.text == right_answer_object[0]:
+        db_object.execute(f"right_answers_number FROM users WHERE id = {id}")
+        right_answers_number_object = db_object.fetchone()
+        db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}", (right_answers_number_object[0] + 1,))
 
-    db_connection.commit();
 
 
 
-    print(next_exercise)
 
-    # if message.text=="Кнопка":
-    #     bot.send_message(message.chat.id,"https://habr.com/ru/users/lubaznatel/")
+
+
+
+
+db_connection.commit();
+
+
+
+
+
+
 
 
 @server.route(f"/{BOT_TOKEN}",methods = ["POST"])
