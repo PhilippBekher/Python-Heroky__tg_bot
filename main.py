@@ -77,28 +77,29 @@ Your level is: {level}
 We'll contact you very soon🙂""")
         db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
 
+    if result[0] < len(question_records):
+        next_exercise_id = result[0] + 1
+        db_object.execute(f"SELECT * FROM questions WHERE question_id = {next_exercise_id}")
+        next_exercise = db_object.fetchone()
+        db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (next_exercise_id,))
 
-    next_exercise_id = result[0] + 1
-    db_object.execute(f"SELECT * FROM questions WHERE question_id = { next_exercise_id }")
-    next_exercise = db_object.fetchone()
-    db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}",(next_exercise_id,))
+        keyboard = telebot.types.ReplyKeyboardMarkup(True)
+        keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
+        bot.send_message(message.chat.id,
+                         f"""{next_exercise[0]}. Fill in the gap:
+        {next_exercise[1]}""", reply_markup=keyboard)
 
-    keyboard = telebot.types.ReplyKeyboardMarkup(True)
-    keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
-    bot.send_message(message.chat.id,
- f"""{next_exercise[0]}. Fill in the gap:
-{next_exercise[1]}""", reply_markup=keyboard)
+        current_exercise_right_answer = db_object.execute(
+            f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+        right_answer_object = db_object.fetchone()
 
-    current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
-    right_answer_object = db_object.fetchone()
+        if message.text == right_answer_object[0]:
+            current_right_answers_number = result[1] + 1
+            db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
+                              (current_right_answers_number,))
+            db_connection.commit();
 
-
-    if message.text == right_answer_object[0]:
-        current_right_answers_number = result[1] + 1
-        db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}", (current_right_answers_number,))
-        db_connection.commit();
-
-    db_connection.commit()
+        db_connection.commit()
 
 
 
