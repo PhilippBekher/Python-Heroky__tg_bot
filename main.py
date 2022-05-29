@@ -49,7 +49,18 @@ def after_text(message):
     id = message.from_user.id
     db_object.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
     result = db_object.fetchone()
-    next_exercise = result[0] + 1
+    next_exercise_id = result[0] + 1
+    db_object.execute(f"SELECT * FROM questions WHERE question_id = { next_exercise }")
+    next_exercise = db_object.fetchone()
+    keyboard = telebot.types.ReplyKeyboardMarkup(True)
+    keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
+    bot.send_message(message.chat.id,
+                     f"""{next_exercise[0]}. Fill in the gap:
+    {next_exercise[1]}""", reply_markup=keyboard)
+    db_connection.commit();
+
+
+
     print(next_exercise)
 
     # if message.text=="Кнопка":
