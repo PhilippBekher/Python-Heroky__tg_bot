@@ -5,7 +5,8 @@ from config import * ;
 from flask import Flask, request
 import psycopg2
 
-bot = telebot.TeleBot(BOT_TOKEN)
+# bot = telebot.TeleBot(BOT_TOKEN)
+telebot.AsyncTeleBot(BOT_TOKEN)
 server = Flask(__name__)
 logger = telebot.logger
 logger.setLevel(logging.DEBUG)
@@ -15,7 +16,7 @@ db_object = db_connection.cursor()
 
 
 @bot.message_handler(commands=["start"])
-def start(message):
+async def start(message):
     id = message.from_user.id
     username = message.from_user.username
     fullname = message.from_user.first_name + ' ' + message.from_user.last_name
@@ -26,7 +27,7 @@ def start(message):
     if not result:
         questions = db_object.execute("SELECT * FROM questions")
         question_records = db_object.fetchall()
-        bot.send_message(message.chat.id,
+        await bot.send_message(message.chat.id,
 f"""Hello👋🏼
 I'm going to take you through {len(question_records)} questions to find out your English level 📚🎓
 Please be patient and carefully reply to all the questions🙏🏼
@@ -39,13 +40,13 @@ Good luck🤞🏼""")
         first_question = db_object.fetchone()
         keyboard = telebot.types.ReplyKeyboardMarkup(True)
         keyboard.row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
-        bot.send_message(message.chat.id,
+        await bot.send_message(message.chat.id,
 f"""{first_question[0]}. Fill in the gap:
 {first_question[1]}""",reply_markup=keyboard)
         db_connection.commit();
 
 @bot.message_handler(content_types=['text'])
-def after_text(message):
+async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
 
@@ -86,9 +87,9 @@ def after_text(message):
             level = 'Advanced'
 
         db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
-        keyboard = telebot.types.ReplyKeyboardRemove(selective=False)
+        keyboard = telebot.types.ReplyKeyboardRemove(selective = False)
         current_number_of_right_answers = db_object.fetchone()
-        bot.send_message(message.chat.id,
+        await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
 Number of right answers is: { current_number_of_right_answers[0] } 
 Your level is: {level}
@@ -104,7 +105,7 @@ We'll contact you very soon🙂""", reply_markup = keyboard)
 
         keyboard = telebot.types.ReplyKeyboardMarkup(True)
         keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
-        bot.send_message(message.chat.id,
+        await bot.send_message(message.chat.id,
 f"""{next_exercise[0]}. Fill in the gap:
 {next_exercise[1]}""", reply_markup=keyboard)
 
