@@ -4,6 +4,7 @@ import logging;
 from config import * ;
 from flask import Flask, request
 import psycopg2
+from telebot.async_telebot import AsyncTeleBot
 
 # bot = telebot.TeleBot(BOT_TOKEN)
 telebot.AsyncTeleBot(BOT_TOKEN)
